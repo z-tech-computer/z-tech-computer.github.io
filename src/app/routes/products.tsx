@@ -82,6 +82,10 @@ export default function ProductsPage() {
             <Select
               value={String(filters.categorySlug ?? "all")}
               onValueChange={(v) => updateParam("category", !v || v === "all" ? undefined : v)}
+              items={[
+                { value: "all", label: "All Categories" },
+                ...(categories?.map((c) => ({ value: c.slug, label: c.name })) ?? []),
+              ]}
             >
               <SelectTrigger><SelectValue placeholder="All categories" /></SelectTrigger>
               <SelectContent>
@@ -97,6 +101,10 @@ export default function ProductsPage() {
             <Select
               value={String(filters.brandSlug ?? "all")}
               onValueChange={(v) => updateParam("brand", !v || v === "all" ? undefined : v)}
+              items={[
+                { value: "all", label: "All Brands" },
+                ...(brands?.map((b) => ({ value: b.id, label: b.name })) ?? []),
+              ]}
             >
               <SelectTrigger><SelectValue placeholder="All brands" /></SelectTrigger>
               <SelectContent>
@@ -112,6 +120,12 @@ export default function ProductsPage() {
             <Select
               value={String(filters.sortBy)}
               onValueChange={(v) => updateParam("sort", v ?? "newest")}
+              items={[
+                { value: "newest", label: "Newest" },
+                { value: "price-asc", label: "Price: Low to High" },
+                { value: "price-desc", label: "Price: High to Low" },
+                { value: "name-asc", label: "Name: A-Z" },
+              ]}
             >
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>

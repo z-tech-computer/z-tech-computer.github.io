@@ -22,7 +22,13 @@ import { ROUTES } from "@/lib/constants";
 const registerSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
+      "Password must include lowercase, uppercase, digits, and symbols",
+    ),
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
@@ -119,6 +125,10 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 {...register("password")}
               />
+              <p className="text-xs text-muted-foreground">
+                Must include at least 8 chars, plus one lowercase, one uppercase, one
+                digit, and one symbol.
+              </p>
               {errors.password && (
                 <p className="text-sm text-destructive">
                   {errors.password.message}
